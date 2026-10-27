@@ -1,0 +1,548 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AEGIS-GASGUARD | Technical Project Report</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary: #0f172a;
+            --accent: #2563eb;
+            --danger: #dc2626;
+            --success: #16a34a;
+            --border: #e2e8f0;
+            --bg-subtle: #f8fafc;
+            --text-main: #1e293b;
+            --text-muted: #64748b;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+            color: var(--text-main);
+            background: #ffffff;
+            line-height: 1.65;
+            padding: 40px 20px;
+        }
+
+        .report-container {
+            max-width: 920px;
+            margin: 0 auto;
+        }
+
+        /* COVER / HEADER */
+        .report-header {
+            border-bottom: 3px solid var(--primary);
+            padding-bottom: 24px;
+            margin-bottom: 36px;
+        }
+
+        .report-badge {
+            display: inline-block;
+            background: #e0f2fe;
+            color: #0369a1;
+            font-size: 12px;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.08em;
+            padding: 4px 10px;
+            border-radius: 6px;
+            margin-bottom: 12px;
+        }
+
+        h1.project-title {
+            font-size: 30px;
+            font-weight: 800;
+            color: var(--primary);
+            letter-spacing: -0.02em;
+            line-height: 1.25;
+            margin-bottom: 10px;
+        }
+
+        .project-subtitle {
+            font-size: 16px;
+            color: var(--text-muted);
+            margin-bottom: 18px;
+        }
+
+        .metadata-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 12px;
+            background: var(--bg-subtle);
+            border: 1px solid var(--border);
+            border-radius: 10px;
+            padding: 16px 20px;
+            font-size: 13px;
+        }
+
+        .metadata-grid strong {
+            color: var(--primary);
+        }
+
+        /* SECTION STYLING */
+        h2.section-heading {
+            font-size: 20px;
+            font-weight: 700;
+            color: var(--primary);
+            border-bottom: 2px solid var(--border);
+            padding-bottom: 6px;
+            margin: 36px 0 16px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        h3.sub-heading {
+            font-size: 16px;
+            font-weight: 600;
+            color: #334155;
+            margin: 20px 0 8px;
+        }
+
+        p {
+            margin-bottom: 14px;
+            font-size: 14.5px;
+            color: #334155;
+            text-align: justify;
+        }
+
+        ul, ol {
+            margin: 10px 0 16px 24px;
+            font-size: 14.5px;
+            color: #334155;
+        }
+
+        li {
+            margin-bottom: 6px;
+        }
+
+        /* COMPARATIVE MATRIX TABLE */
+        table.data-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 16px 0 24px;
+            font-size: 13.5px;
+        }
+
+        table.data-table th, table.data-table td {
+            border: 1px solid var(--border);
+            padding: 10px 14px;
+            text-align: left;
+        }
+
+        table.data-table th {
+            background: #f1f5f9;
+            color: var(--primary);
+            font-weight: 700;
+        }
+
+        table.data-table tr:nth-child(even) {
+            background: #f8fafc;
+        }
+
+        .highlight-col {
+            background: #ecfdf5 !important;
+            font-weight: 600;
+            color: #065f46;
+        }
+
+        /* CODE BLOCK */
+        pre, code {
+            font-family: 'JetBrains Mono', monospace;
+        }
+
+        pre {
+            background: #0f172a;
+            color: #f8fafc;
+            padding: 14px 18px;
+            border-radius: 8px;
+            font-size: 12.5px;
+            overflow-x: auto;
+            margin: 14px 0 20px;
+        }
+
+        /* IMAGE PLACEHOLDER BOXES */
+        .image-placeholder-card {
+            border: 2px dashed #94a3b8;
+            background: #f8fafc;
+            border-radius: 12px;
+            padding: 24px;
+            margin: 20px 0;
+            text-align: center;
+            transition: all 0.2s ease;
+        }
+
+        .image-placeholder-card:hover {
+            border-color: var(--accent);
+            background: #f0f7ff;
+        }
+
+        .placeholder-icon {
+            font-size: 32px;
+            color: #64748b;
+            margin-bottom: 8px;
+        }
+
+        .placeholder-title {
+            font-size: 15px;
+            font-weight: 700;
+            color: var(--primary);
+            margin-bottom: 4px;
+        }
+
+        .placeholder-instruction {
+            font-size: 12.5px;
+            color: var(--text-muted);
+            margin-bottom: 12px;
+        }
+
+        .placeholder-box-frame {
+            width: 100%;
+            min-height: 260px;
+            border: 1px solid #cbd5e1;
+            border-radius: 8px;
+            background: #ffffff;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #94a3b8;
+            font-size: 13px;
+            font-style: italic;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .placeholder-box-frame img {
+            max-width: 100%;
+            height: auto;
+            display: block;
+        }
+
+        .image-caption {
+            font-size: 12px;
+            color: var(--text-muted);
+            margin-top: 8px;
+            font-style: italic;
+        }
+
+        /* PRINT STYLES */
+        @media print {
+            body { padding: 0; }
+            .report-container { max-width: 100%; }
+            .image-placeholder-card { page-break-inside: avoid; }
+            h2.section-heading { page-break-after: avoid; }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="report-container">
+
+        <!-- REPORT COVER / HEADER -->
+        <header class="report-header">
+            <span class="report-badge">Engineering & Technical Report</span>
+            <h1 class="project-title">AEGIS-GASGUARD: Intelligent IoT Combustible Gas Leakage Monitoring & Automated Hazard Mitigation System</h1>
+            <p class="project-subtitle">An Edge-Automated Hardware Appliance with Real-Time Telemetry and Autonomous Ventilation Relay Interlock</p>
+
+            <div class="metadata-grid">
+                <div><strong>System Architecture:</strong> Arduino UNO R3 + MQ-2 + Relay Fan + Python Flask</div>
+                <div><strong>Target Domain:</strong> Smart Safety, IoT Edge Systems, Environmental Hazard Mitigation</div>
+                <div><strong>Communication Protocol:</strong> Full-Duplex Serial UART (9600 Baud, 8N1)</div>
+                <div><strong>GitHub Repository:</strong> https://github.com/Srivandhi/AEGIS-GASGUARD.git</div>
+            </div>
+        </header>
+
+        <!-- ABSTRACT -->
+        <section>
+            <h2 class="section-heading">Executive Summary / Abstract</h2>
+            <p>
+                Liquefied petroleum gas (LPG) and flammable hydrocarbon gases are omnipresent across domestic cooking, commercial hospitality, and petrochemical facilities. Accidental leakages, however, represent a devastating hazard capable of causing catastrophic deflagrations, toxic asphyxiation, and structural destruction. Traditional gas detection mechanisms operate as passive battery-powered sounders that provide only localized audible chirps without active ventilation, remote operational visibility, or fail-safe mitigation.
+            </p>
+            <p>
+                This project presents <strong>AEGIS-GASGUARD</strong>, an integrated edge-automated IoT safety system designed for sub-second combustible gas detection and immediate autonomous mitigation. The physical layer interfaces an <strong>Arduino UNO</strong> with an analog <strong>Hanwei MQ-2 gas sensor</strong>, a <strong>high-intensity visual alarm LED (Pin D6)</strong>, and a <strong>high-current 5V optocoupled relay controlling an exhaust cooling fan (Pin D7)</strong>. The edge firmware samples ambient air quality at 1 Hz. When gas concentration crosses the critical threshold of <strong>400 ADC units</strong>, the microcontroller autonomously trips the warning LED and energizes the exhaust fan to disperse volatile vapors before a flammable fuel-air mixture can form.
+            </p>
+            <p>
+                Simultaneously, serial telemetry is ingested by a multithreaded <strong>Python Flask server</strong>, rendering an industrial-grade, zero-dependency web dashboard. The presentation layer incorporates a 30-second rolling canvas trend line, calibrated radial arc gauges, a synthesized browser acoustic siren, and an interactive emergency action protocol.
+            </p>
+        </section>
+
+        <!-- PROBLEM STATEMENT -->
+        <section>
+            <h2 class="section-heading">1. Introduction & Problem Statement</h2>
+            <h3 class="sub-heading">1.1 Industrial & Domestic Risk Context</h3>
+            <p>
+                Hydrocarbon fuel gases such as Propane ($C_3H_8$), Butane ($C_4H_{10}$), and Methane ($CH_4$) are stored under high pressure. Even microscopic valve micro-fractures, degraded synthetic hose piping, or human oversight can trigger severe gas buildup. Because these gases are heavier than air (with propane having a relative vapor density of 1.55), they settle near floor levels, accumulating unnoticed until ignited by pilot lights or electrical contacts.
+            </p>
+            <h3 class="sub-heading">1.2 Critical Deficiencies of Conventional Alarms</h3>
+            <ul>
+                <li><strong>No Autonomous Mitigation:</strong> Standard alarms only emit a buzzer sound. If premises are unoccupied, asleep, or disabled, explosive gas continues accumulating unabated.</li>
+                <li><strong>Human Error & Spark Hazard:</strong> Panicked occupants frequently toggle light switches or wall fans upon smelling gas—actions whose electrical arcing directly ignites the mixture.</li>
+                <li><strong>Lack of Telemetry & Drift Visibility:</strong> Existing devices provide zero visibility into sensor baseline changes, gradual micro-leaks, or pre-threshold escalation.</li>
+                <li><strong>Cloud Vulnerability:</strong> Contemporary "smart" alarms rely heavily on cloud APIs and Wi-Fi networks; internet outages render them completely blind.</li>
+            </ul>
+        </section>
+
+        <!-- COMPARATIVE MATRIX -->
+        <section>
+            <h2 class="section-heading">2. Existing Approaches vs. Proposed Solution</h2>
+            <table class="data-table">
+                <thead>
+                    <tr>
+                        <th>Capability / Metric</th>
+                        <th>Standard Gas Detector</th>
+                        <th>Wi-Fi Cloud Alarm</th>
+                        <th class="highlight-col">AEGIS-GASGUARD (Proposed)</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><strong>Sensing Layer</strong></td>
+                        <td>Fixed threshold comparator</td>
+                        <td>Digital threshold sensor</td>
+                        <td class="highlight-col">Calibrated 10-bit Analog Sampling (MQ-2 SnO2)</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Active Mitigation</strong></td>
+                        <td>None (Audio buzzer only)</td>
+                        <td>None (Push notification only)</td>
+                        <td class="highlight-col">Autonomous Relay Fan (D7) + Warning LED (D6)</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Mitigation Latency</strong></td>
+                        <td>N/A (Requires manual intervention)</td>
+                        <td>5 – 30 seconds (Cloud roundtrip)</td>
+                        <td class="highlight-col">&lt; 1.0 second (Deterministic Edge Trip)</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Real-Time Observability</strong></td>
+                        <td>Single blinking LED</td>
+                        <td>Proprietary mobile application</td>
+                        <td class="highlight-col">Industrial Canvas Sparkline &amp; Radial Gauge</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Offline Resilience</strong></td>
+                        <td>Full (Local only)</td>
+                        <td>Fails if internet is lost</td>
+                        <td class="highlight-col">Fully Autonomous Edge Hardware Operation</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Emergency Action Guide</strong></td>
+                        <td>None</td>
+                        <td>Basic text notification</td>
+                        <td class="highlight-col">Dynamic 5-Step Safety Protocol Checklist</td>
+                    </tr>
+                </tbody>
+            </table>
+        </section>
+
+        <!-- SYSTEM ARCHITECTURE DIAGRAM PLACEHOLDER -->
+        <section>
+            <h2 class="section-heading">3. System Architecture & Methodology</h2>
+            <p>
+                The system architecture follows a decoupled four-stage hierarchy comprising the <em>Perception Layer</em>, <em>Embedded Processing Layer</em>, <em>Transport Middleware</em>, and <em>Presentation &amp; Audit Layer</em>.
+            </p>
+
+            <div class="image-placeholder-card">
+                <div class="placeholder-icon">📐</div>
+                <div class="placeholder-title">Figure 1: High-Level System Architecture Diagram</div>
+                <div class="placeholder-instruction">Paste or drag your system architecture block diagram image below</div>
+                <div class="placeholder-box-frame">
+                    <!-- Paste image tag here: <img src="images/architecture_diagram.png" alt="Architecture Diagram"> -->
+                    <span>[ Architecture Diagram Image Space — Paste File Here ]</span>
+                </div>
+                <div class="image-caption">Figure 1: End-to-End Architectural Pipeline showing Perception, Edge Processing, Serial Pipeline, and Dashboard.</div>
+            </div>
+        </section>
+
+        <!-- HARDWARE CIRCUIT DESIGN & PLACEHOLDER -->
+        <section>
+            <h2 class="section-heading">4. Hardware Circuit Design & Specifications</h2>
+            <table class="data-table">
+                <thead>
+                    <tr>
+                        <th>Component</th>
+                        <th>Hardware Spec</th>
+                        <th>Operating Voltage</th>
+                        <th>Assigned Pin / Role</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><strong>Microcontroller</strong></td>
+                        <td>Arduino UNO R3 (ATmega328P @ 16 MHz)</td>
+                        <td>5V USB / 7-12V DC</td>
+                        <td>Edge Controller &amp; ADC Digitizer</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Gas Sensor</strong></td>
+                        <td>Hanwei MQ-2 Semiconductor Sensor</td>
+                        <td>5V DC (Heater ~ 150mA)</td>
+                        <td>Analog Output Pin <code>A0</code></td>
+                    </tr>
+                    <tr>
+                        <td><strong>Visual Indicator</strong></td>
+                        <td>5mm High-Intensity Red LED</td>
+                        <td>2.0V – 2.2V (via 220Ω resistor)</td>
+                        <td>Digital Output Pin <code>D6</code></td>
+                    </tr>
+                    <tr>
+                        <td><strong>Relay Actuator</strong></td>
+                        <td>1-Channel 5V Optocoupled Relay</td>
+                        <td>5V DC (Active-LOW trigger)</td>
+                        <td>Digital Output Pin <code>D7</code></td>
+                    </tr>
+                    <tr>
+                        <td><strong>Exhaust Fan</strong></td>
+                        <td>DC Brushless Cooling / Extraction Fan</td>
+                        <td>5V / 12V DC Power</td>
+                        <td>Switched across Relay <code>NO</code> terminal</td>
+                    </tr>
+                </tbody>
+            </table>
+
+            <div class="image-placeholder-card">
+                <div class="placeholder-icon">⚡</div>
+                <div class="placeholder-title">Figure 2: Complete Hardware Circuit Schematic</div>
+                <div class="placeholder-instruction">Paste or drag your schematic wiring diagram below</div>
+                <div class="placeholder-box-frame">
+                    <!-- Paste image tag here: <img src="images/circuit_diagram.png" alt="Circuit Schematic"> -->
+                    <span>[ Circuit Schematic Diagram Space — Paste File Here ]</span>
+                </div>
+                <div class="image-caption">Figure 2: Schematic Interconnection Diagram depicting Arduino UNO, MQ-2 Sensor, Relay, and LED.</div>
+            </div>
+        </section>
+
+        <!-- CIRCUIT CONNECTION PHOTOGRAPHS -->
+        <section>
+            <h2 class="section-heading">5. Hardware Circuit Connection Photographs</h2>
+            <p>
+                Below are the designated slots for the physical breadboard/prototype circuit connections under both normal standby and triggered alarm states:
+            </p>
+
+            <div class="image-placeholder-card">
+                <div class="placeholder-icon">🟢</div>
+                <div class="placeholder-title">Figure 3: Circuit Connection — Normal Standby State (LED OFF &amp; Fan OFF)</div>
+                <div class="placeholder-instruction">Paste photograph showing circuit in normal condition with LED and Fan OFF</div>
+                <div class="placeholder-box-frame">
+                    <!-- Paste image tag here: <img src="images/circuit_normal_led_off.jpg" alt="Circuit LED OFF"> -->
+                    <span>[ Circuit Connection Photo: LED OFF Condition — Paste Image Here ]</span>
+                </div>
+                <div class="image-caption">Figure 3: Physical circuit hardware operating in normal standby state (LED OFF, Relay Fan dormant).</div>
+            </div>
+
+            <div class="image-placeholder-card">
+                <div class="placeholder-icon">🔴</div>
+                <div class="placeholder-title">Figure 4: Circuit Connection — Hazard Triggered State (LED ON &amp; Fan ON)</div>
+                <div class="placeholder-instruction">Paste photograph showing circuit in gas detected condition with LED glowing and Fan spinning</div>
+                <div class="placeholder-box-frame">
+                    <!-- Paste image tag here: <img src="images/circuit_hazard_led_on.jpg" alt="Circuit LED ON"> -->
+                    <span>[ Circuit Connection Photo: LED ON &amp; Fan ON Condition — Paste Image Here ]</span>
+                </div>
+                <div class="image-caption">Figure 4: Physical circuit hardware in triggered hazard condition (Red LED illuminated, Relay Fan active).</div>
+            </div>
+        </section>
+
+        <!-- DASHBOARD OUTPUT SCREENSHOTS -->
+        <section>
+            <h2 class="section-heading">6. Dashboard Output Screenshots & Telemetry Verification</h2>
+            <p>
+                The monitoring interface of AEGIS-GASGUARD was tested under active simulation and hardware stimulation. Below are the 4 designated screenshot slots displaying the web dashboard across key operational phases:
+            </p>
+
+            <!-- DASHBOARD SCREENSHOT 1 -->
+            <div class="image-placeholder-card">
+                <div class="placeholder-icon">🖥️</div>
+                <div class="placeholder-title">Figure 5: Dashboard Output — Normal Baseline Condition (Clean Air)</div>
+                <div class="placeholder-instruction">Paste screenshot of the dashboard in nominal state (Emerald banner, DEFCON 5, all actuators OFF)</div>
+                <div class="placeholder-box-frame">
+                    <!-- Paste image tag here: <img src="images/dashboard_normal_state.png" alt="Dashboard Normal State"> -->
+                    <span>[ Dashboard Screenshot 1: Normal State Overview — Paste Image Here ]</span>
+                </div>
+                <div class="image-caption">Figure 5: AegisGuard Dashboard overview in clean air baseline condition showing nominal status.</div>
+            </div>
+
+            <!-- DASHBOARD SCREENSHOT 2 -->
+            <div class="image-placeholder-card">
+                <div class="placeholder-icon">🚨</div>
+                <div class="placeholder-title">Figure 6: Dashboard Output — Gas Hazard Alert State &amp; Emergency Protocol</div>
+                <div class="placeholder-instruction">Paste screenshot showing the crimson warning banner, DEFCON 1 alert, and emergency protocol checklist</div>
+                <div class="placeholder-box-frame">
+                    <!-- Paste image tag here: <img src="images/dashboard_hazard_alert.png" alt="Dashboard Hazard Alert"> -->
+                    <span>[ Dashboard Screenshot 2: Hazard Alert &amp; Protocol — Paste Image Here ]</span>
+                </div>
+                <div class="image-caption">Figure 6: AegisGuard Dashboard during a gas leak event with pulsing hazard alert and actionable response checklist.</div>
+            </div>
+
+            <!-- DASHBOARD SCREENSHOT 3 -->
+            <div class="image-placeholder-card">
+                <div class="placeholder-icon">📈</div>
+                <div class="placeholder-title">Figure 7: Dashboard Output — Real-Time Rolling Telemetry Graph &amp; Radial Gauge</div>
+                <div class="placeholder-instruction">Paste screenshot highlighting the Canvas rolling trend curve and the circular arc concentration meter</div>
+                <div class="placeholder-box-frame">
+                    <!-- Paste image tag here: <img src="images/dashboard_graph_gauge.png" alt="Dashboard Graph and Gauge"> -->
+                    <span>[ Dashboard Screenshot 3: Telemetry Graph &amp; Concentration Gauge — Paste Image Here ]</span>
+                </div>
+                <div class="image-caption">Figure 7: Real-time telemetry sparkline (30-second rolling window) and semi-circular concentration meter.</div>
+            </div>
+
+            <!-- DASHBOARD SCREENSHOT 4 -->
+            <div class="image-placeholder-card">
+                <div class="placeholder-icon">⚡</div>
+                <div class="placeholder-title">Figure 8: Dashboard Output — Actuator Verification (LED &amp; Fan Active) &amp; Incident Log</div>
+                <div class="placeholder-instruction">Paste screenshot showing the LED card 'ACTIVE', Fan card 'VENTING', and the chronological event stream</div>
+                <div class="placeholder-box-frame">
+                    <!-- Paste image tag here: <img src="images/dashboard_actuators_log.png" alt="Dashboard Actuators and Event Log"> -->
+                    <span>[ Dashboard Screenshot 4: Actuator Cards &amp; Event Stream Log — Paste Image Here ]</span>
+                </div>
+                <div class="image-caption">Figure 8: Hardware actuator telemetry verification showing D6 strobe and D7 fan extraction states alongside event logs.</div>
+            </div>
+        </section>
+
+        <!-- ADVANTAGES & APPLICATIONS -->
+        <section>
+            <h2 class="section-heading">7. Engineering Advantages & Real-World Applications</h2>
+            <h3 class="sub-heading">7.1 Key Advantages</h3>
+            <ul>
+                <li><strong>Closed-Loop Safety Automation:</strong> Unlike commercial standalone alarms that only chirp, the system autonomously triggers ventilation to mitigate hazard levels immediately.</li>
+                <li><strong>Zero Cloud Dependence:</strong> All safety trip logic and dashboard rendering run locally at the edge. The system remains fully operational even during network failures.</li>
+                <li><strong>Acoustic Web Audio Siren:</strong> Synthesizes audio warning tones using the browser's native Web Audio API, eliminating the need for external MP3 files or CDN dependencies.</li>
+                <li><strong>Cost-Effective Industrial Retrofit:</strong> Built using affordable, standardized components suitable for easy retrofitting into existing residential or industrial kitchens.</li>
+            </ul>
+
+            <h3 class="sub-heading">7.2 Deployment Applications</h3>
+            <ul>
+                <li><strong>Residential Kitchens:</strong> Protection against LPG cylinder valve leaks, flame-out gas accumulation, and regulator failures.</li>
+                <li><strong>Commercial Food Courts &amp; Hotels:</strong> Monitoring multi-burner line supply manifolds in enclosed commercial cooking facilities.</li>
+                <li><strong>Industrial Boiler Rooms:</strong> Continuous surveillance of high-pressure gas supply lines and fuel feeding assemblies.</li>
+                <li><strong>Gas Cylinder Storage Depots:</strong> Monitoring atmospheric safety in chemical storage sheds and warehousing docks.</li>
+            </ul>
+        </section>
+
+        <!-- CONCLUSION -->
+        <section>
+            <h2 class="section-heading">8. Conclusion & Future Scope</h2>
+            <p>
+                The <strong>AEGIS-GASGUARD</strong> system successfully bridges the gap between low-latency physical hazard mitigation and modern real-time digital observability. By coupling the Arduino UNO's deterministic hardware interlock with Python Flask's responsive telemetry engine, the system delivers sub-second automated ventilation alongside an intuitive, professional user interface.
+            </p>
+            <p>
+                Future extensions include adding a motorized brass solenoid shutoff valve to physically isolate the fuel cylinder, integrating a cellular GSM/SMS module for offsite notifications, and deploying an array of wireless mesh nodes across expansive commercial properties.
+            </p>
+        </section>
+
+        <footer style="margin-top: 48px; padding-top: 18px; border-top: 1px solid var(--border); font-size: 12px; color: var(--text-muted); text-align: center;">
+            AEGIS-GASGUARD Project Report &bull; Comprehensive Hardware &amp; Telemetry Documentation &bull; Srivandhi/AEGIS-GASGUARD
+        </footer>
+
+    </div>
+
+</body>
+</html>
